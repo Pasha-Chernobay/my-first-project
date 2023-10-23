@@ -4,6 +4,7 @@ import java.util.ArrayList;
 public class Node {
     private File folder;
     private ArrayList<Node> children;
+    private int level;
 
     private long size;
 
@@ -17,6 +18,7 @@ public class Node {
     }
 
     public void addChild(Node node) {
+        node.setSize(level++);
         children.add(node);
     }
 
@@ -31,9 +33,18 @@ public class Node {
     public void setSize(long size) {
         this.size = size;
     }
+    private void setLevel(int level) {
+        this.level = level;
+    }
 
     public String toString() {
         String size = SizeCalculator.getHumanReadableSize(getSize());
-        return size;
+        StringBuilder builder = new StringBuilder();
+        builder.append(folder.getName() + " - " + size + "\n");
+        for (Node child : children) {
+            builder.append("\t" + child.toString());
+        }
+
+        return builder.toString();
     }
 }
